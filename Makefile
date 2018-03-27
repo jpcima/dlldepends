@@ -4,10 +4,10 @@ PREFIX ?= /usr/local
 all: dlldepends
 
 dlldepends: dlldepends.cc
-	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --cppflags --libs`
+	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --cppflags --libs` $(LDFLAGS)
 
 dlldepends.static: dlldepends.cc
-	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --link-static --libs --system-libs object`
+	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --link-static --libs --system-libs object` $(LDFLAGS)
 
 clean:
 	rm -f dlldepends dlldepends.static

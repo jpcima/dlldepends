@@ -1,11 +1,16 @@
 
 PREFIX ?= /usr/local
 
-all:
-	$(CXX) $(CXXFLAGS) -o dlldepends dlldepends.cc `llvm-config --cppflags --libs`
+all: dlldepends
+
+dlldepends: dlldepends.cc
+	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --cppflags --libs`
+
+dlldepends.static: dlldepends.cc
+	$(CXX) $(CXXFLAGS) -o $@ $^ `llvm-config --link-static --libs --system-libs object`
 
 clean:
-	rm -f dlldepends
+	rm -f dlldepends dlldepends.static
 
 install: all
 	install -D -m 755 dlldepends $(DESTDIR)$(PREFIX)/bin/dlldepends
